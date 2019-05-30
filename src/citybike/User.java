@@ -49,4 +49,11 @@ public class User {
         this.rentedBike = rentedBike;
     }
 
+    public Rent getRentTime() {
+        return rentTime;
+    }
+
+    public void setRentTime(Rent rentTime) {
+        this.rentTime = rentTime;
+    }
 }

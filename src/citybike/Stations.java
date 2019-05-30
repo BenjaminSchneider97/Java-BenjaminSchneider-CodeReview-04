@@ -1,5 +1,7 @@
 package citybike;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Stations {
@@ -52,8 +54,11 @@ public class Stations {
     public void rentBike(User user, Bike bike){
         if(this.bikesInStation.contains(bike) && bike.getState().equals(Bike.State.CanBeRented) && user.getRentedBike() == null){
             this.bikesInStation.remove(bikesInStation.indexOf(bike));
+            Rent rentTime1 = new Rent(bike, LocalDateTime.now(), LocalDateTime.now());
+            DateTimeFormatter formatingDate = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+            String formattedDate = formatingDate.format(LocalDateTime.now());
             user.setRentedBike(bike);
-            System.out.println("User " + user.getName() + " " + user.getSurname() + " successfully rented the bike " + bike.getBikeID() + " from the station in " + this.getLocation() + ".");
+            System.out.println("User " + user.getName() + " " + user.getSurname() + " successfully rented the bike " + bike.getBikeID() + " from the station in " + this.getLocation() + " at " + formattedDate + ".");
         } else if(user.getRentedBike() != null){
             System.out.println("User " + user.getName() + " " + user.getSurname() + " already rents a bike!");
         } else if (!this.bikesInStation.contains(bike)){
@@ -67,7 +72,10 @@ public class Stations {
         if(user.getRentedBike().equals(bike)){
             this.bikesInStation.add(bike.getBikeID()-1, bike);
             user.setRentedBike(null);
-            System.out.println("User " + user.getName() + " " + user.getSurname() + " successfully returned bike " + bike.getBikeID() + " to the station in " + this.getLocation() + ".");
+            Rent rentTime1 = new Rent(bike, LocalDateTime.now(), LocalDateTime.now());
+            DateTimeFormatter formatingDate = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+            String formattedDate = formatingDate.format(LocalDateTime.now());
+            System.out.println("User " + user.getName() + " " + user.getSurname() + " successfully returned bike " + bike.getBikeID() + " to the station in " + this.getLocation() + " at " + formattedDate + ".");
         } else {
             System.out.println(user.getName() + " " + user.getSurname() + " can't return the bike " + bike.getBikeID() + " because he didn't rent it before!");
         }
